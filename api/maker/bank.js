@@ -1,36 +1,30 @@
-import { ImageResponse } from "@vercel/og";
+export default async function handler(req, res) {
+  const { searchParams } = new URL(req.url, "http://localhost");
 
-export const config = {
-  runtime: "edge",
-};
-
-export default function handler(req) {
-  const { searchParams } = new URL(req.url);
-
-  const name = searchParams.get("name") || "Zyroo";
+  const name = searchParams.get("name") || "Renza";
   const money = searchParams.get("money") || "100000";
   const bank = searchParams.get("bank") || "10000";
   const cash = searchParams.get("cash") || "0";
 
-  return new ImageResponse(
-    (
-      <div
-        style={{
-          background: "#0b2a6b",
-          width: "100%",
-          height: "100%",
-          color: "white",
-          padding: 40,
-          fontSize: 28,
-        }}
-      >
-        <div style={{ fontSize: 40 }}>PROFILE BANK USER</div>
-        <div>Nama: {name}</div>
-        <div>Money: {money}</div>
-        <div>Bank: {bank}</div>
-        <div>Cash: {cash}</div>
-      </div>
-    ),
-    { width: 800, height: 400 }
-  );
-} 
+  const html = `
+  <html>
+  <body style="
+  background:#0b2a6b;
+  width:800px;
+  height:400px;
+  color:white;
+  font-family:sans-serif;
+  padding:40px">
+  
+  <h1>PROFILE BANK USER</h1>
+  <p>Nama: ${name}</p>
+  <p>Money: ${money}</p>
+  <p>Bank: ${bank}</p>
+  <p>Cash: ${cash}</p>
+
+  </body>
+  </html>
+  `;
+
+  res.setHeader("Content-Type", "text/html");
+  res
